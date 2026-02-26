@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: pgms-backend
+server:
+  servlet:
+    context-path: /compgmsds
