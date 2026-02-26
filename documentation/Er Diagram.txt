@@ -1,0 +1,18 @@
+@startuml
+
+Owner ||--o{ Business
+Business ||--o{ Branch
+Branch ||--o{ Room
+Room ||--o{ Bed
+Branch ||--o{ Tenant
+Bed ||--o{ BedAllocation
+Tenant ||--o{ BedAllocation
+Tenant ||--o{ MonthlyInvoice
+MonthlyInvoice ||--|| Payment
+Tenant ||--o{ ReferralReward
+
+Owner ||--o{ OwnerSubscription
+OwnerSubscription ||--o{ PlatformInvoice
+PlatformInvoice ||--|| PlatformPayment
+
+@enduml

@@ -1,0 +1,4 @@
+ALTER TABLE monthly_invoices
+    ADD COLUMN base_rent_amount NUMERIC(12,2) DEFAULT 0 NOT NULL,
+ADD COLUMN gst_on_rent NUMERIC(12,2) DEFAULT 0 NOT NULL,
+ADD COLUMN gst_on_late_fee NUMERIC(12,2) DEFAULT 0 NOT NULL;

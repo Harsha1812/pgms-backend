@@ -1,0 +1,14 @@
+Owner
+ └── Business
+      └── Branch
+           ├── Rooms → Beds
+           ├── Tenants
+           │     └── Bed Allocations
+           │           └── Monthly Invoices
+           │                 └── Payments
+           └── Referral Rewards
+
+Owner
+ └── Subscription
+       └── Platform Invoices
+            └── Platform Payments
