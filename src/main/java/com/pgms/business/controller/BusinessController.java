@@ -3,7 +3,6 @@ package com.pgms.business.controller;
 import com.pgms.business.dto.BusinessResponse;
 import com.pgms.business.dto.CreateBusinessRequest;
 import com.pgms.business.service.BusinessService;
-import com.pgms.business.service.impl.BusinessServiceImpl;
 import com.pgms.shared.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

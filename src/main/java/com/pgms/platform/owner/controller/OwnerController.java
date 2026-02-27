@@ -1,7 +1,6 @@
 package com.pgms.platform.owner.controller;
 
 import com.pgms.platform.owner.service.OwnerService;
-import com.pgms.platform.owner.service.impl.OwnerServiceImpl;
 import com.pgms.platform.owner.dto.RegisterOwnerRequest;
 import com.pgms.platform.owner.dto.RegisterOwnerResponse;
 import com.pgms.shared.response.ApiResponse;

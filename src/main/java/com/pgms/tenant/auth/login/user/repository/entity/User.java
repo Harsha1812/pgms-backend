@@ -2,7 +2,11 @@ package com.pgms.tenant.auth.login.user.repository.entity;
 
 import com.pgms.shared.base.OwnerScopedEntity;
 import com.pgms.shared.enums.Role;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
