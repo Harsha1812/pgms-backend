@@ -16,7 +16,8 @@ spring:
     out-of-order: true
     locations:
       - classpath:db
-
+jwt:
+  secret: 3f8c9b2d7e4a1f6c8d9e2b7a4f1c6e8d
 logging:
   level:
     org.springframework.boot.autoconfigure.flyway: DEBUG
@@ -25,7 +26,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,prometheus
   endpoint:
     info:
       enabled: true
