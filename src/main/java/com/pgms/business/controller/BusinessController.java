@@ -1,9 +1,9 @@
-package com.pgms.platform.owner.controller;
+package com.pgms.business.controller;
 
-import com.pgms.platform.owner.service.OwnerService;
-import com.pgms.platform.owner.service.impl.OwnerServiceImpl;
-import com.pgms.platform.owner.dto.RegisterOwnerRequest;
-import com.pgms.platform.owner.dto.RegisterOwnerResponse;
+import com.pgms.business.dto.BusinessResponse;
+import com.pgms.business.dto.CreateBusinessRequest;
+import com.pgms.business.service.BusinessService;
+import com.pgms.business.service.impl.BusinessServiceImpl;
 import com.pgms.shared.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/platform/owners")
+@RequestMapping("/api/v1/admin/businesses")
 @RequiredArgsConstructor
-public class OwnerController {
+public class BusinessController {
 
-  private final OwnerService ownerService;
+  private final BusinessService service;
 
-  @PostMapping("/register")
-  public ResponseEntity<ApiResponse<RegisterOwnerResponse>> register(
-    @RequestBody RegisterOwnerRequest request,
+  @PostMapping
+  public ResponseEntity<ApiResponse<BusinessResponse>> create(
+    @RequestBody CreateBusinessRequest request,
     HttpServletRequest httpRequest) {
 
-    RegisterOwnerResponse response = ownerService.register(request);
+    BusinessResponse response = service.create(request);
 
     return ResponseEntity.ok(
       ApiResponse.success(response, httpRequest.getRequestURI())
