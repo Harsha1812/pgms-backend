@@ -1,5 +1,6 @@
 package com.pgms.shared.base;
 
+import com.pgms.shared.audit.AuditEntityListener;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @MappedSuperclass
 @Getter
 @Setter
+@EntityListeners(AuditEntityListener.class)
 public abstract class BaseEntity {
 
   @Id

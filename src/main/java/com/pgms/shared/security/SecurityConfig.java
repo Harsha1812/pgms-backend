@@ -8,6 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -35,10 +36,8 @@ public class SecurityConfig {
         // Public endpoints
         .requestMatchers("/api/v1/auth/**").permitAll()
         .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-
-        // Platform endpoints
-        .requestMatchers("/api/v1/platform/**")
-        .hasRole("SUPER_ADMIN")
+        // Allow Owner register
+          .requestMatchers("/api/v1/platform/owners/register").permitAll()
 
         // Admin endpoints
         .requestMatchers("/api/v1/admin/**")
@@ -51,6 +50,10 @@ public class SecurityConfig {
         // All other actuator endpoints secured
         .requestMatchers("/actuator/**")
         .hasRole("SUPER_ADMIN")
+
+          // Platform endpoints
+          .requestMatchers("/api/v1/platform/**")
+          .hasRole("SUPER_ADMIN")
 
         .anyRequest().authenticated()
       )
@@ -72,6 +75,7 @@ public class SecurityConfig {
       System.out.println("\n\nREAL JWT TOKEN:");
       System.out.println(token);
       System.out.println("\n");
+      System.out.println(new BCryptPasswordEncoder().encode("password123"));
     };
   }
 }

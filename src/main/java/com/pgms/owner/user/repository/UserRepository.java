@@ -1,6 +1,5 @@
 package com.pgms.owner.user.repository;
 
-import com.pgms.owner.entity.Owner;
 import com.pgms.owner.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

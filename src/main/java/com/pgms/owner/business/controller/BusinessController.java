@@ -1,9 +1,9 @@
-package com.pgms.tenant.auth.controller;
+package com.pgms.owner.business.controller;
 
-import com.pgms.shared.dto.LoginRequest;
-import com.pgms.shared.dto.LoginResponse;
+import com.pgms.owner.business.dto.BusinessResponse;
+import com.pgms.owner.business.dto.CreateBusinessRequest;
+import com.pgms.owner.business.service.BusinessService;
 import com.pgms.shared.response.ApiResponse;
-import com.pgms.tenant.auth.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,23 +12,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/admin/businesses")
 @RequiredArgsConstructor
-public class AuthController {
+public class BusinessController {
 
-  private final AuthService authService;
+  private final BusinessService service;
 
-  @PostMapping("/login")
-  public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request,
-     HttpServletRequest httpRequest) {
+  @PostMapping
+  public ResponseEntity<ApiResponse<BusinessResponse>> create(
+    @RequestBody CreateBusinessRequest request,
+    HttpServletRequest httpRequest) {
 
-    LoginResponse response = authService.login(
-      new LoginRequest(request.email(),
-      request.password()
-      )    );
+    BusinessResponse response = service.create(request);
 
     return ResponseEntity.ok(
       ApiResponse.success(response, httpRequest.getRequestURI())

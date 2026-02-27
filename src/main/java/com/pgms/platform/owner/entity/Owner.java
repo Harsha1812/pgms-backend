@@ -1,12 +1,16 @@
-package com.pgms.owner.entity;
+package com.pgms.platform.owner.entity;
 
 import com.pgms.shared.base.BaseEntity;
 import com.pgms.shared.base.OwnerScopedEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Setter
+@Getter
 @Table(name = "owners")
 public class Owner extends BaseEntity {
 

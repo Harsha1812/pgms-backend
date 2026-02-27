@@ -1,9 +1,9 @@
-package com.pgms.tenant.auth.controller;
+package com.pgms.platform.owner.controller;
 
-import com.pgms.shared.dto.LoginRequest;
-import com.pgms.shared.dto.LoginResponse;
+import com.pgms.platform.owner.service.OwnerService;
+import com.pgms.shared.dto.RegisterOwnerRequest;
+import com.pgms.shared.dto.RegisterOwnerResponse;
 import com.pgms.shared.response.ApiResponse;
-import com.pgms.tenant.auth.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,23 +12,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/platform/owners")
 @RequiredArgsConstructor
-public class AuthController {
+public class OwnerController {
 
-  private final AuthService authService;
+  private final OwnerService ownerService;
 
-  @PostMapping("/login")
-  public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request,
-     HttpServletRequest httpRequest) {
+  @PostMapping("/register")
+  public ResponseEntity<ApiResponse<RegisterOwnerResponse>> register(
+    @RequestBody RegisterOwnerRequest request,
+    HttpServletRequest httpRequest) {
 
-    LoginResponse response = authService.login(
-      new LoginRequest(request.email(),
-      request.password()
-      )    );
+    RegisterOwnerResponse response = ownerService.register(request);
 
     return ResponseEntity.ok(
       ApiResponse.success(response, httpRequest.getRequestURI())
