@@ -29,7 +29,6 @@ public class OwnerServiceImpl implements OwnerService {
   @Transactional
   @Override
   public RegisterOwnerResponse register(RegisterOwnerRequest request) {
-
     if (ownerRepository.existsByEmailIgnoreCase(request.email())) {
       throw new BusinessValidationException("Owner email already exists");
     }

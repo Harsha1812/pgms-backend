@@ -6,8 +6,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -73,6 +75,43 @@ public class GlobalExceptionHandler {
 
     return ResponseEntity
       .badRequest()
+      .body(ApiResponse.failure(error, request.getRequestURI()));
+  }
+
+  @ExceptionHandler(MissingRequestHeaderException.class)
+  public ResponseEntity<ApiResponse<Void>> handleMissingHeader(
+    MissingRequestHeaderException ex,
+    HttpServletRequest request) {
+    ApiError error = new ApiError(
+      "MISSING_HEADER",
+      null,
+      request.getRequestURI()
+    );
+
+    if ("Idempotency-Key".equals(ex.getHeaderName())) {
+      error = new ApiError(
+        "MISSING_HEADER",
+        "Idempotency-Key header is required",
+        request.getRequestURI()
+      );
+    }
+    return ResponseEntity
+      .status(HttpStatus.BAD_REQUEST)
+      .body(ApiResponse.failure(error, request.getRequestURI()));
+  }
+
+  @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+  public ResponseEntity<ApiResponse<Void>> handleOptimisticLock(
+    ObjectOptimisticLockingFailureException ex,
+    HttpServletRequest request) {
+
+    ApiError error = new ApiError(
+      "CONFLICT",
+      "Branch was modified by another user or incorrect version was used",
+      request.getRequestURI()
+    );
+    return ResponseEntity
+      .status(HttpStatus.CONFLICT)
       .body(ApiResponse.failure(error, request.getRequestURI()));
   }
 }
