@@ -1,8 +1,13 @@
 package com.pgms.branch.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 public record UpdateBranchRequest(
+  @Schema(description = "Optimistic locking version", example = "0")
+  @NotNull
   Long version,
   String name,
   String city,

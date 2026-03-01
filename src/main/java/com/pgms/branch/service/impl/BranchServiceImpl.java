@@ -2,6 +2,7 @@ package com.pgms.branch.service.impl;
 
 import com.pgms.branch.dto.BranchResponse;
 import com.pgms.branch.dto.CreateBranchRequest;
+import com.pgms.branch.dto.PatchBranchRequest;
 import com.pgms.branch.dto.UpdateBranchRequest;
 import com.pgms.branch.repository.BranchRepository;
 import com.pgms.branch.repository.BranchSpecifications;
@@ -21,6 +22,8 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+
+import static com.pgms.shared.util.Utility.updateIfNotNull;
 
 @Service
 public class BranchServiceImpl implements BranchService {
@@ -173,10 +176,6 @@ public class BranchServiceImpl implements BranchService {
     branch.setReferralRewardReferrer(request.referralRewardReferrer());
     branch.setReferralRewardReferred(request.referralRewardReferred());
 
-    // No manual version check
-    // No manual conflict throwing
-    // No custom repo method needed
-
     return new BranchResponse(
       branch.getId(),
       branch.getName(),
@@ -184,6 +183,44 @@ public class BranchServiceImpl implements BranchService {
       branch.isActive(),
       branch.getVersion()
     );
+  }
+
+  @Transactional
+  @Override
+  public BranchResponse patch(
+    UUID businessId,
+    UUID branchId,
+    PatchBranchRequest request) {
+
+    UUID ownerId = OwnerContext.getOwnerId();
+
+    Branch branch = branchRepository
+      .findByIdAndOwnerIdAndBusinessIdAndVersion(
+        branchId,
+        ownerId,
+        businessId,
+        request.version()
+      )
+      .orElseThrow(() ->
+        new BusinessValidationException("Branch was modified by another user")
+      );
+
+    updateIfNotNull(request.name(), branch::setName);
+    updateIfNotNull(request.city(), branch::setCity);
+    updateIfNotNull(request.state(), branch::setState);
+    updateIfNotNull(request.country(), branch::setCountry);
+    updateIfNotNull(request.addressLine1(), branch::setAddressLine1);
+    updateIfNotNull(request.addressLine2(), branch::setAddressLine2);
+    updateIfNotNull(request.pincode(), branch::setPincode);
+    updateIfNotNull(request.totalFloors(), branch::setTotalFloors);
+    updateIfNotNull(request.totalRooms(), branch::setTotalRooms);
+    updateIfNotNull(request.fixedLateFee(), branch::setFixedLateFee);
+    updateIfNotNull(request.upfrontDiscountPercentage(), branch::setUpfrontDiscountPercentage);
+    updateIfNotNull(request.upfrontDiscountMinMonths(), branch::setUpfrontDiscountMinMonths);
+    updateIfNotNull(request.referralRewardReferrer(), branch::setReferralRewardReferrer);
+    updateIfNotNull(request.referralRewardReferred(), branch::setReferralRewardReferred);
+
+    return toResponse(branch);
   }
 
   private BranchResponse toResponse(Branch branch) {

@@ -36,6 +36,13 @@ management:
     env:
       enabled: true
 
+springdoc:
+  swagger-ui:
+    persist-authorization: true
+    display-request-duration: true
+  api-docs:
+    enabled: true
+
 server:
   servlet:
     context-path: /compgmsds

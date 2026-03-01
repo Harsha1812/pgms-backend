@@ -40,11 +40,15 @@ public class SecurityConfig {
       .authorizeHttpRequests(auth -> auth
 
         // Public endpoints
-        .requestMatchers("/api/v1/auth/**").permitAll()
-        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-        // Allow Owner register
-          .requestMatchers("/api/v1/platform/owners/register").permitAll()
-
+        .requestMatchers(
+          "/api/v1/auth/**",
+          "/actuator/health",
+          "/actuator/info",
+          "/api/v1/platform/owners/register",
+          "/v3/api-docs/**",
+          "/swagger-ui/**",
+          "/swagger-ui.html"
+        ).permitAll()
         // Admin endpoints
         .requestMatchers("/api/v1/admin/**")
         .hasAnyRole("OWNER_ADMIN", "BRANCH_MANAGER", "STAFF")
