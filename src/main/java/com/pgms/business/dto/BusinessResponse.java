@@ -6,5 +6,5 @@ public record BusinessResponse(
   UUID id,
   String name,
   String code,
-  boolean isActive
-) {}
+  boolean isActive,
+  Long version) {}

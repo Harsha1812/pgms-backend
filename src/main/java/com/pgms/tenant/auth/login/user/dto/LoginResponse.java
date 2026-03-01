@@ -6,5 +6,6 @@ public record LoginResponse(
   String accessToken,
   String role,
   UUID ownerId,
+  String fullName,
   UUID branchId
 ) {}

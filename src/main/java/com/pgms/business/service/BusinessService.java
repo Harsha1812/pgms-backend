@@ -6,6 +6,8 @@ import com.pgms.shared.dto.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public interface BusinessService {
 
   BusinessResponse create(CreateBusinessRequest request);
@@ -14,4 +16,6 @@ public interface BusinessService {
     String name,
     Boolean active,
     Pageable pageable);
+
+  BusinessResponse getById(UUID id);
 }

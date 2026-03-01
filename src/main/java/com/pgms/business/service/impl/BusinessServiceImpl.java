@@ -8,6 +8,7 @@ import com.pgms.business.repository.BusinessRepository;
 import com.pgms.business.service.BusinessService;
 import com.pgms.shared.dto.PageResponse;
 import com.pgms.shared.exception.BusinessValidationException;
+import com.pgms.shared.exception.ResourceNotFoundException;
 import com.pgms.shared.security.OwnerContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -55,8 +56,8 @@ public class BusinessServiceImpl implements BusinessService {
       saved.getId(),
       saved.getName(),
       saved.getCode(),
-      saved.isActive()
-    );
+      saved.isActive(),
+      business.getVersion());
   }
 
   @Override
@@ -89,12 +90,26 @@ public class BusinessServiceImpl implements BusinessService {
       this::toResponse);
   }
 
+  @Override
+  public BusinessResponse getById(UUID id) {
+    UUID ownerId = OwnerContext.getOwnerId();
+
+    Business business = repository
+      .findByIdAndOwnerId(id, ownerId)
+      .orElseThrow(() -> new ResourceNotFoundException(
+        "Business not found"
+      ));
+
+    return toResponse(business);
+  }
+
   private BusinessResponse toResponse(Business business) {
     return new BusinessResponse(
       business.getId(),
       business.getName(),
       business.getCode(),
-      business.isActive()
+      business.isActive(),
+      business.getVersion()
     );
   }
 

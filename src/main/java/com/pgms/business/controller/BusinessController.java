@@ -63,4 +63,16 @@ public class BusinessController {
       ApiResponse.success(page, request.getRequestURI())
     );
   }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<ApiResponse<BusinessResponse>> get(
+    @PathVariable UUID id,
+    HttpServletRequest httpRequest
+  ) {
+    BusinessResponse response = businessService.getById(id);
+
+    return ResponseEntity.ok(
+      ApiResponse.success(response, httpRequest.getRequestURI())
+    );
+  }
 }

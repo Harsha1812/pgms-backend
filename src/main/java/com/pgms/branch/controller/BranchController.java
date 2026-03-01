@@ -1,10 +1,7 @@
 package com.pgms.branch.controller;
 
 
-import com.pgms.branch.dto.BranchResponse;
-import com.pgms.branch.dto.CreateBranchRequest;
-import com.pgms.branch.dto.PatchBranchRequest;
-import com.pgms.branch.dto.UpdateBranchRequest;
+import com.pgms.branch.dto.*;
 import com.pgms.branch.service.BranchService;
 import com.pgms.shared.dto.PageResponse;
 import com.pgms.shared.idempotency.service.IdempotencyService;
@@ -92,6 +89,19 @@ public class BranchController {
     HttpServletRequest httpRequest) {
 
     BranchResponse response = branchService.get(id);
+
+    return ResponseEntity.ok(
+      ApiResponse.success(response, httpRequest.getRequestURI())
+    );
+  }
+
+  @GetMapping("/{id}/summary")
+  public ResponseEntity<ApiResponse<BranchSummaryResponse>> getSummary(
+    @PathVariable UUID id,
+    @PathVariable UUID businessId,
+    HttpServletRequest httpRequest) {
+
+    BranchSummaryResponse response = branchService.getSummary(businessId, id);
 
     return ResponseEntity.ok(
       ApiResponse.success(response, httpRequest.getRequestURI())

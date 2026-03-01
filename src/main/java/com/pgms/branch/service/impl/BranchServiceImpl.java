@@ -1,9 +1,6 @@
 package com.pgms.branch.service.impl;
 
-import com.pgms.branch.dto.BranchResponse;
-import com.pgms.branch.dto.CreateBranchRequest;
-import com.pgms.branch.dto.PatchBranchRequest;
-import com.pgms.branch.dto.UpdateBranchRequest;
+import com.pgms.branch.dto.*;
 import com.pgms.branch.repository.BranchRepository;
 import com.pgms.branch.repository.BranchSpecifications;
 import com.pgms.branch.repository.entity.Branch;
@@ -21,6 +18,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.pgms.shared.util.Utility.updateIfNotNull;
@@ -221,6 +220,48 @@ public class BranchServiceImpl implements BranchService {
     updateIfNotNull(request.referralRewardReferred(), branch::setReferralRewardReferred);
 
     return toResponse(branch);
+  }
+
+  @Override
+  @Transactional
+  public BranchSummaryResponse getSummary(UUID businessId, UUID branchId) {
+
+    UUID ownerId = OwnerContext.getOwnerId();
+
+    Branch branch = branchRepository
+      .findByIdAndOwnerIdAndBusinessId(
+        branchId, ownerId, businessId
+      )
+      .orElseThrow(() -> new BusinessValidationException("Branch not found"));
+
+    long totalRooms = 10;
+    //roomRepository.countByBranchId(branchId);
+
+    long totalBeds = 30;
+      //roomRepository.sumCapacityByBranchId(branchId);
+
+    long occupiedBeds = 22;
+      //allocationRepository.countActiveByBranchId(branchId);
+
+    int occupancyRate = totalBeds == 0
+      ? 0
+      : (int) ((occupiedBeds * 100.0) / totalBeds);
+
+    BigDecimal monthlyRevenue = new BigDecimal("325000.00");
+//      invoiceRepository.sumPaidForCurrentMonth(branchId)
+  //      .orElse(BigDecimal.ZERO);
+
+    return new BranchSummaryResponse(
+      branch.getId(),
+      branch.getName(),
+      branch.getCode(),
+      branch.getCity(),
+      totalRooms,
+      occupiedBeds,
+      totalBeds,
+      occupancyRate,
+      monthlyRevenue
+    );
   }
 
   private BranchResponse toResponse(Branch branch) {

@@ -1,9 +1,6 @@
 package com.pgms.branch.service;
 
-import com.pgms.branch.dto.BranchResponse;
-import com.pgms.branch.dto.CreateBranchRequest;
-import com.pgms.branch.dto.PatchBranchRequest;
-import com.pgms.branch.dto.UpdateBranchRequest;
+import com.pgms.branch.dto.*;
 import com.pgms.shared.dto.PageResponse;
 import org.springframework.data.domain.Pageable;
 
@@ -27,4 +24,6 @@ public interface BranchService {
     UUID businessId,
     UUID branchId,
     PatchBranchRequest request);
+
+  BranchSummaryResponse getSummary(UUID businessId, UUID branchId);
 }
