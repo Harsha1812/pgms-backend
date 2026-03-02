@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface OwnerRepository extends JpaRepository<Owner, UUID> {
   Optional<Owner> findByEmail(String email);
 
-  boolean existsByEmailIgnoreCase(String email);
+  boolean existsByEmailHash(String emailHash);
 }

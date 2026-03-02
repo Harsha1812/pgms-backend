@@ -26,4 +26,7 @@ public class Owner extends BaseEntity {
 
   @Column(nullable = false)
   private boolean isActive;
+
+  @Column(name = "email_hash")
+  private String emailHash;
 }

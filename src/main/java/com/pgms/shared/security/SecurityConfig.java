@@ -86,19 +86,4 @@ public class SecurityConfig {
     source.registerCorsConfiguration("/**", configuration);
     return source;
   }
-
-  @Bean
-  CommandLineRunner printJwt(JwtService jwtService) {
-    return args -> {
-      String token = jwtService.generateToken(
-        UUID.randomUUID(),
-        UUID.randomUUID(),
-        "OWNER_ADMIN"
-      );
-      System.out.println("\n\nREAL JWT TOKEN:");
-      System.out.println(token);
-      System.out.println("\n");
-      System.out.println(new BCryptPasswordEncoder().encode("password123"));
-    };
-  }
 }

@@ -18,6 +18,12 @@ spring:
       - classpath:db
 jwt:
   secret: 3f8c9b2d7e4a1f6c8d9e2b7a4f1c6e8d
+pgms:
+  security:
+    allow-unverified-login: true
+app:
+  crypto:
+    secret: "NJFh0hwYLDiULoLBa1TYS/5KEMKDkmzrcy9I+s60k2Y="
 logging:
   level:
     org.springframework.boot.autoconfigure.flyway: DEBUG

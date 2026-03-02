@@ -6,6 +6,7 @@ import com.pgms.branch.service.BranchService;
 import com.pgms.shared.dto.PageResponse;
 import com.pgms.shared.idempotency.service.IdempotencyService;
 import com.pgms.shared.response.ApiResponse;
+import com.pgms.shared.security.BranchContext;
 import com.pgms.shared.security.OwnerContext;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -87,7 +89,9 @@ public class BranchController {
   public ResponseEntity<ApiResponse<BranchResponse>> get(
     @PathVariable UUID id,
     HttpServletRequest httpRequest) {
-
+    if (!BranchContext.getBranchIds().contains(id)) {
+      throw new AccessDeniedException("No Access to this Branch");
+    }
     BranchResponse response = branchService.get(id);
 
     return ResponseEntity.ok(

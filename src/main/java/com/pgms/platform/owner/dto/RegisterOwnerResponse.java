@@ -5,5 +5,6 @@ import java.util.UUID;
 public record RegisterOwnerResponse(
   String accessToken,
   UUID ownerId,
-  String role
+  String role,
+  boolean activationRequired
 ) {}
